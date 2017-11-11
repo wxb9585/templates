@@ -21,7 +21,7 @@ class Lexicon:
         self.cat = {'P':[],'N':[],'A':[],'T':[],'I':[]}
     def add(self,stem,cat):
         if not cat in self.cat.keys():
-            return "Invalid tag"
+            return "It is not the tag we need"
         else:
             self.cat[cat].append(stem)
 
@@ -37,9 +37,30 @@ class FactBase:
     def __init__(self):
         self.unary = {}
         self.binary = {}
-    def addUnary(self,pred,e1):
-        if not self
 
+    def addUnary(self,pred,e1):
+        if not pred in self.unary.key():
+            self.unary[pred] = []
+
+        self.unary[pred].append(e1)
+
+    def addBinary(self,pred,e1,e2):
+        if not pred in self.binary.key():
+            self.binary[pred] = []
+
+        self.binary[pred].append((e1,e2))
+
+    def queryUnary(self, pred, e1):
+        if (pred in self.unary.key()) and (e1 in self.unary[pred]):
+            return True
+        else:
+            return False
+
+    def queryBinary(self, pred, e1, e2):
+        if (pred in self.binary.key()) and ((e1,e2) in self.binary[pred]):
+            return True
+        else:
+            return False
 
 
 import re
@@ -47,6 +68,30 @@ from nltk.corpus import brown
 def verb_stem(s):
     """extracts the stem from the 3sg form of a verb, or returns empty string"""
     # add code here
+    vowel = [a,e,i,o,u]
+    isVerb = 0
+    #check s
+
+    if re.match(".*[aeiou]ys$",s):
+        return s[:-1]
+    elif re.match(".*[^sxyzaeiou(ch)(sh)]s$",s):
+        return s[:-1]
+    elif re.match(".*[^aeiou]ies$",s):
+        return s[:-1]
+    elif re.match(".*[^s]ses$",s):
+        return s[:-1]
+    elif re.match(".*[^z]zes$",s):
+        return s[:-1]
+    elif re.match(".*[^iosxz(ch)(sh)]es$",s):
+        return s[:-1]
+    elif s == "has":
+        return "have"
+    elif len(s)>=5 and re.match(".*[^aeiou]ies$",s):
+        return s[:-3] + 'y'
+    elif re.match(".*[ox(ch)(sh)(ss)]es$",s):
+        return s[:-2]
+    else:
+        return s
 
 def add_proper_name (w,lx):
     """adds a name to a lexicon, checking if first letter is uppercase"""
