@@ -19,7 +19,8 @@ def sem(tr):
         return tr[0][0]
     elif (tr.label() == 'N'):
         return '(\\x.' + tr[0][0] + '(x))'  # \\ is escape sequence for \
-    elif  # add code here
+    elif (tr.label() == 'A'):
+        return '(\\x.' + tr[0][0] + '(x))'# add code here
     
     elif (rule == 'AN -> A AN'):
         return '(\\x.(' + sem(tr[0]) + '(x) & ' + sem(tr[1]) + '(x)))'

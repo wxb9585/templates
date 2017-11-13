@@ -64,34 +64,36 @@ class FactBase:
 
 
 import re
-from nltk.corpus import brown 
+from nltk.corpus import brown
+
+
 def verb_stem(s):
     """extracts the stem from the 3sg form of a verb, or returns empty string"""
     # add code here
-    vowel = [a,e,i,o,u]
-    isVerb = 0
-    #check s
-
     if re.match(".*[aeiou]ys$",s):
-        return s[:-1]
-    elif re.match(".*[^sxyzaeiou(ch)(sh)]s$",s):
-        return s[:-1]
+        snew = s[:-1]
+    elif re.match(".*([^sxyzaeiou]|[^cs]h)s$",s):
+        snew = s[:-1]
     elif re.match(".*[^aeiou]ies$",s):
-        return s[:-1]
+        snew = s[:-1]
     elif re.match(".*[^s]ses$",s):
-        return s[:-1]
+        snew = s[:-1]
     elif re.match(".*[^z]zes$",s):
-        return s[:-1]
-    elif re.match(".*[^iosxz(ch)(sh)]es$",s):
-        return s[:-1]
+        snew = s[:-1]
+    elif re.match(".*([^iosxz]|[^cs]h)es$",s):
+        snew = s[:-1]
     elif s == "has":
-        return "have"
+        snew = "have"
     elif len(s)>=5 and re.match(".*[^aeiou]ies$",s):
-        return s[:-3] + 'y'
-    elif re.match(".*[ox(ch)(sh)(ss)]es$",s):
-        return s[:-2]
+        snew = s[:-3] + 'y'
+    elif re.match(".*([ox]|[cs]h|ss|zz)es$",s):
+        snew = s[:-2]
     else:
         return s
+    if not (snew, "VB") in (brown.tagged_words()) and (s, "VBZ") in (brown.tagged_words()):
+        snew = ""
+    return snew
+
 
 def add_proper_name (w,lx):
     """adds a name to a lexicon, checking if first letter is uppercase"""

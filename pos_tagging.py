@@ -24,19 +24,74 @@ function_words_tags = [('a','AR'), ('an','AR'), ('and','AND'),
 function_words = [p[0] for p in function_words_tags]
 
 def unchanging_plurals():
+    single = set()
+    plural = set()
+    unchange = []
     with open("sentences.txt", "r") as f:
         for line in f:
             # add code here
+            for wordtag in line.split():
+                if wordtag.split('|')[1] == "NN":
+                    single.add(wordtag.split('|')[0])
+                elif wordtag.split('|')[1] == "NNS":
+                    plural.add(wordtag.split('|')[0])
+
+    for check in single:
+        if check in plural:
+            unchange.append(check)
+
+    return unchange
 
 unchanging_plurals_list = unchanging_plurals()
 
 def noun_stem (s):
     """extracts the stem from a plural noun, or returns empty string"""    
     # add code here
-
+    if s in unchanging_plurals_list:
+        return s
+    elif re.match(".*men$", s):
+        snew = s[:-3]+ "man"
+    elif re.match(".*[aeiou]ys$",s):
+        snew = s[:-1]
+    elif re.match(".*([^sxyzaeiou]|[^cs]h)s$",s):
+        snew = s[:-1]
+    elif re.match(".*[^aeiou]ies$",s):
+        snew = s[:-1]
+    elif re.match(".*[^s]ses$",s):
+        snew = s[:-1]
+    elif re.match(".*[^z]zes$",s):
+        snew = s[:-1]
+    elif re.match(".*([^iosxz]|[^cs]h)es$",s):
+        snew = s[:-1]
+    elif len(s)>=5 and re.match(".*[^aeiou]ies$",s):
+        snew = s[:-3] + 'y'
+    elif re.match(".*([ox]|[cs]h|ss|zz)es$",s):
+        snew = s[:-2]
+    else:
+        return ""
+    return snew
 def tag_word (lx,wd):
     """returns a list of all possible tags for wd relative to lx"""
     # add code here
+    tagOfWord = []
+    if wd in function_words:
+        for t in function_words_tags:
+            if t[0] == wd:
+                return [t[1]]
+    for tag in ["P", "A"]:
+        if wd in lx.getAll(tag):
+            tagOfWord.append(tag)
+    if wd in lx.getAll('N'):
+        tagOfWord.append("Np")
+    if noun_stem(wd) in lx.getAll('N'):
+        tagOfWord.append("Ns")
+    for tag in ["I","T"]:
+        if (wd in lx.getAll(tag)) or (verb_stem(wd) in lx.getAll(tag)):
+            if verb_stem(wd) == wd:
+                tagOfWord.append(tag + "p")
+            else:
+                tagOfWord.append(tag + "s")
+    return tagOfWord
 
 def tag_words (lx, wds):
     """returns a list of all possible taggings for a list of words"""
