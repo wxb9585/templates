@@ -39,25 +39,25 @@ class FactBase:
         self.binary = {}
 
     def addUnary(self,pred,e1):
-        if not pred in self.unary.key():
+        if not pred in self.unary.keys():
             self.unary[pred] = []
 
         self.unary[pred].append(e1)
 
     def addBinary(self,pred,e1,e2):
-        if not pred in self.binary.key():
+        if not pred in self.binary.keys():
             self.binary[pred] = []
 
         self.binary[pred].append((e1,e2))
 
     def queryUnary(self, pred, e1):
-        if (pred in self.unary.key()) and (e1 in self.unary[pred]):
+        if (pred in self.unary.keys()) and (e1 in self.unary[pred]):
             return True
         else:
             return False
 
     def queryBinary(self, pred, e1, e2):
-        if (pred in self.binary.key()) and ((e1,e2) in self.binary[pred]):
+        if (pred in self.binary.keys()) and ((e1,e2) in self.binary[pred]):
             return True
         else:
             return False
