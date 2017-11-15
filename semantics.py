@@ -194,7 +194,7 @@ if __name__ == "__main__":
 
     # tr0.draw()
     tr0 = restore_words(tr0, ['Who', 'likes', 'John', '?'])
-    a = lp.parse(sem(tr0))
-    a.simplify()
+    a = sem(tr0)
+
     print a
 # End of PART D.
