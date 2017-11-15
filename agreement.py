@@ -101,10 +101,10 @@ def N_phrase_num(tr):
     elif tr.label() == 'NP':
         if len(tr) == 1:
             return N_phrase_num(tr[0])
-        elif len(tr) == 2:
+        elif tr[0].label() == 'p':
+            return 's'
+        else:
             return N_phrase_num(tr[1])
-    elif tr.label() == 'P':
-        return 's'
     else:
         return ""
 
@@ -120,6 +120,8 @@ def V_phrase_num(tr):
         return tr[0][2]
     elif tr.label() == 'QP':
         if len(tr) == 1:
+            return V_phrase_num(tr[0])
+        elif V_phrase_num(tr[2]) == V_phrase_num(tr[0]):
             return V_phrase_num(tr[0])
         else:
             return ""
@@ -199,12 +201,17 @@ def restore_words(tr,wds):
 
 if __name__ == "__main__":
     #code for a simple testing, feel free to modify
+    wlist = ["John", "likes", "Mary"]
     lx = Lexicon()
-    lx.add('John','P')
-    lx.add('like','T')
-    tr0 = all_valid_parses(lx, ['Who','likes','John','?'])[0]
-    tr = restore_words(tr0,['Who','likes','John','?'])
+    lx.add ('John', 'P')
+    lx.add ('likes', 'T')
+    lx.add ('Mary', 'P')
+    lx.add ('Who', 'WHO')
+    lx.add ('?', '?')
+    trs = all_parses(['Who','likes','John','?'], lx)
+    tr = trs[0]
     tr.draw()
+
 
 # End of PART C.
 
