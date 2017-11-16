@@ -49,26 +49,24 @@ def noun_stem (s):
     # add code here
     if s in unchanging_plurals_list:
         return s
-    elif re.match(".*men$", s):
-        snew = s[:-3]+ "man"
     elif re.match(".*[aeiou]ys$",s):
         snew = s[:-1]
     elif re.match(".*([^sxyzaeiou]|[^cs]h)s$",s):
         snew = s[:-1]
-    elif re.match(".*[^aeiou]ies$",s):
+    elif re.match("[^aeiou]ies$",s):
         snew = s[:-1]
     elif re.match(".*[^s]ses$",s):
         snew = s[:-1]
     elif re.match(".*[^z]zes$",s):
         snew = s[:-1]
-    elif re.match(".*([^iosxz]|[^cs]h)es$",s):
+    elif re.match(".*([^iosxzh]|[^cs]h)es$",s):
         snew = s[:-1]
     elif len(s)>=5 and re.match(".*[^aeiou]ies$",s):
         snew = s[:-3] + 'y'
     elif re.match(".*([ox]|[cs]h|ss|zz)es$",s):
         snew = s[:-2]
     else:
-        return ""
+        snew = ""
     return snew
 def tag_word (lx,wd):
     """returns a list of all possible tags for wd relative to lx"""
@@ -103,3 +101,6 @@ def tag_words (lx, wds):
         return [[fst] + rst for fst in tag_first for rst in tag_rest]
 
 # End of PART B.
+
+if __name__ == "__main__":
+    print unchanging_plurals_list
