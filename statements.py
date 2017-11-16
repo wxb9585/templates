@@ -51,7 +51,7 @@ class FactBase:
         self.binary[pred].append((e1,e2))
 
     def queryUnary(self, pred, e1):
-        if (pred in self.unary.keys()) and (e1 in self.unary[pred]):
+        if pred in self.unary.keys() and e1 in self.unary[pred]:
             return True
         else:
             return False
@@ -74,13 +74,13 @@ def verb_stem(s):
         snew = s[:-1]
     elif re.match(".*([^sxyzaeiou]|[^cs]h)s$",s):
         snew = s[:-1]
-    elif re.match(".*[^aeiou]ies$",s):
+    elif re.match("[^aeiou]ies$",s):
         snew = s[:-1]
     elif re.match(".*[^s]ses$",s):
         snew = s[:-1]
     elif re.match(".*[^z]zes$",s):
         snew = s[:-1]
-    elif re.match(".*([^iosxz]|[^cs]h)es$",s):
+    elif re.match(".*([^iosxzh]|[^cs]h)es$",s):
         snew = s[:-1]
     elif s == "has":
         snew = "have"
@@ -89,11 +89,12 @@ def verb_stem(s):
     elif re.match(".*([ox]|[cs]h|ss|zz)es$",s):
         snew = s[:-2]
     else:
-        return s
-    if not (snew, "VB") in (brown.tagged_words()) and (s, "VBZ") in (brown.tagged_words()):
         snew = ""
-    return snew
+    if snew != "" and snew != "have":
+       if not ( (snew, "VB") in (brown.tagged_words()) and (s, "VBZ") in (brown.tagged_words())):
+           snew = ""
 
+    return snew
 
 def add_proper_name (w,lx):
     """adds a name to a lexicon, checking if first letter is uppercase"""
@@ -130,6 +131,14 @@ def process_statement (lx,wlist,fb):
                     lx.add (stem,'T')
                     fb.addBinary ('T_'+stem,wlist[0],wlist[2])
     return msg
-                        
+
+#if __name__ == "__main__":
+    #test = ["eats", "tells","shows","pays","buys","flies","tries","unifies",
+    #        "dies","lies","ties","goes","boxes","attaches","washes","dresses",
+    #        "fizzes","loses","dazes","lapses","analyses","has","likes","hates","bathes"]
+    #for ve in test:
+    #    print verb_stem(ve)
+    #    print '\n'
+
 # End of PART A.
 
