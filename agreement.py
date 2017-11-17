@@ -99,12 +99,13 @@ def N_phrase_num(tr):
         else:
             return N_phrase_num(tr[0])
     elif tr.label() == 'NP':
+        if tr.label() == 'P':
+            return 's'
         if len(tr) == 1:
-            return N_phrase_num(tr[0])
+            return 'p'
         else:
             return N_phrase_num(tr[1])
-    elif tr.label() == 'P':
-        return 's'
+
     else:
         return ""
 
@@ -126,7 +127,10 @@ def V_phrase_num(tr):
         else:
             return ""
     elif tr.label() == 'Rel':
-        return V_phrase_num(tr[1])
+        if tr[0].label() == 'WHO':
+            return V_phrase_num(tr[1])
+        else:
+            return ""
 
 
 def matches(n1,n2):

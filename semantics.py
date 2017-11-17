@@ -36,11 +36,7 @@ def sem(tr):
     elif rule == 'VP -> I':
         return '(\\x. ' + sem(tr[0]) + '(x))'
     elif rule == 'VP -> T NP':
-
-        if top_level_rule(tr[1][0])[0] == 'P':
-            return '(\\x.(exists y.((' + sem(tr[0]) + '(x,y) & ' + sem(tr[1]) + '))))'
-        else:
-            return '(\\x.(exists y.((' + sem(tr[0]) + '(x,y) & ' + sem(tr[1]) + '(y)))))'
+        return '(\\y.(((exists x.(' + sem(tr[0]) + '(x) & ' + sem(tr[1]) + '(x,y))))))'
     elif rule == 'VP -> BE A':
         return '(\\x.' + sem(tr[1]) + '(x))'
     elif rule == 'VP -> BE NP':
@@ -54,7 +50,7 @@ def sem(tr):
     elif rule == 'NP -> Nom':
         return '(\\x.' + sem(tr[0]) + '(x))'
     elif rule == 'Nom -> AN':
-        return sem(tr[0])
+        return '(\\x.'+ sem(tr[0]) + '(x))'
     elif rule == 'Nom -> AN Rel':
         return '(\\x.(' + sem(tr[0]) + '(x) & ' + sem(tr[1]) + '(x)))'
     elif rule == 'AN -> A AN':
