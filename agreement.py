@@ -122,8 +122,6 @@ def V_phrase_num(tr):
     elif tr.label() == 'QP':
         if len(tr) == 1:
             return V_phrase_num(tr[0])
-        elif V_phrase_num(tr[2]) == V_phrase_num(tr[0]):
-            return V_phrase_num(tr[0])
         else:
             return ""
     elif tr.label() == 'Rel':
