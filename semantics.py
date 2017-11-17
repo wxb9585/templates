@@ -25,42 +25,42 @@ def sem(tr):
         return '(\\x.' + tr[0][0] + '(x))'
     elif (tr.label() == 'T'):
         return '(\\x.(\\y.' + tr[0][0] + '(x,y)))'
-    elif rule == 'S -> WHO QP QM':
-        return '(\\x.('+ sem(tr[1])+ '(x)))'
-    elif rule == 'S -> WHICH Nom QP QM':
+    elif (rule == "S -> WHO QP QM"):
+        return '(\\x.' + sem(tr[1]) + '(x))'
+    elif (rule == "S -> WHICH Nom QP QM"):
         return '(\\x.(' + sem(tr[1]) + '(x) & ' + sem(tr[2]) + '(x)))'
-    elif rule == 'QP -> VP':
-        return '(\\x.(' + sem(tr[0]) + '(x)))'
-    elif rule == 'QP -> DO NP T':
-        return '(\\x. (exists y.(' + sem(tr[1]) + ' & ' + sem(tr[2]) + '(y,x))))'
-    elif rule == 'VP -> I':
-        return '(\\x. ' + sem(tr[0]) + '(x))'
-    elif rule == 'VP -> T NP':
-        return '(\\y.(((exists x.(' + sem(tr[0]) + '(x) & ' + sem(tr[1]) + '(x,y))))))'
-    elif rule == 'VP -> BE A':
-        return '(\\x.' + sem(tr[1]) + '(x))'
-    elif rule == 'VP -> BE NP':
-        return '(\\x.' + sem(tr[1]) + '(x))'
-    elif rule == 'VP -> VP AND VP':
-        return '(\\x.(' + sem(tr[0]) + '(x) & ' + sem(tr[2]) + '(x)))'
-    elif rule == 'NP -> P':
-        return '\\x.(y=' + sem(tr[0]) + ')(x)'
-    elif rule == 'NP -> AR Nom':
-        return '(\\x.' + sem(tr[1]) + '(x))'
-    elif rule == 'NP -> Nom':
+    elif (rule == "QP -> VP"):
         return '(\\x.' + sem(tr[0]) + '(x))'
-    elif rule == 'Nom -> AN':
-        return '(\\x.'+ sem(tr[0]) + '(x))'
-    elif rule == 'Nom -> AN Rel':
-        return '(\\x.(' + sem(tr[0]) + '(x) & ' + sem(tr[1]) + '(x)))'
-    elif rule == 'AN -> A AN':
-        return '(\\x.(' + sem(tr[0]) + '(x) & ' + sem(tr[1]) + '(x)))'
-    elif rule == 'AN -> N':
+    elif (rule == "QP -> DO NP T"):
+        return '(\\x.(exists y.(' + sem(tr[1]) + '(y) & ' + sem(tr[2]) + '(y, x))))'
+    elif (rule == "VP -> I"):
+        return '(\\x.' + sem(tr[0]) + '(x))'
+    elif (rule == "VP -> T NP"):
+        return '(\\x.(exists y.(' + sem(tr[1]) + '(y) & ' + sem(tr[0]) + '(x, y))))'
+    elif (rule == "VP -> BE A"):
+        return '(\\x.' + sem(tr[1]) + '(x))'
+    elif (rule == "VP -> BE NP"):
+        return sem(tr[1])
+    elif (rule == "VP -> VP AND VP"):
+        return "(\\x.(" + sem(tr[0]) + "(x) & " + sem(tr[2]) + "(x)))"
+    elif (rule == "NP -> P"):
+        return "(\\x. x=" + sem(tr[0]) + ")"
+    elif (rule == "NP -> AR Nom"):
+        return sem(tr[1])
+    elif (rule == "NP -> Nom"):
         return sem(tr[0])
-    elif rule == 'Rel -> WHO VP':
-        return '(\\x.(' + sem(tr[1]) + '(x)))'
-    elif rule == 'Rel -> NP T':
-        return '(\\x.(exists y.((' + sem(tr[0]) + '(y)) & ' + sem(tr[1]) + '(y,x))))'
+    elif (rule == "Nom -> AN"):
+        return sem(tr[0])
+    elif (rule == "Nom -> AN Rel"):
+        return "(\\x.(" + sem(tr[0]) + "(x) & " + sem(tr[1]) + "(x)))"
+    elif (rule == "AN -> N"):
+        return sem(tr[0])
+    elif (rule == "AN -> A AN"):
+        return "(\\x.(" + sem(tr[0]) + "(x) & " + sem(tr[1]) + "(x)))"
+    elif (rule == "Rel -> WHO VP"):
+        return sem(tr[1])
+    elif (rule == "Rel -> NP T"):
+        return "(\\x. exists y.(" + sem(tr[0]) + "(y) & " + sem(tr[1]) + "(x)(y)))"
 # Logic parser for lambda expressions
 
 from nltk.sem.logic import LogicParser

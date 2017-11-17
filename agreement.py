@@ -144,7 +144,7 @@ def check_node(tr):
     elif (rule == 'NP -> Nom'):
         return (N_phrase_num(tr[0]) == 'p')
     elif rule == 'QP -> DO NP T':
-        return matches(V_phrase_num(tr[1]), N_phrase_num(tr[2]))
+        return matches(V_phrase_num(tr[0]), N_phrase_num(tr[1]))
     elif rule == 'VP -> VP AND VP':
         return matches(V_phrase_num(tr[0]), V_phrase_num(tr[2]))
     elif rule == 'VP -> BE NP':
