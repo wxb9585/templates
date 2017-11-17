@@ -26,19 +26,19 @@ def sem(tr):
     elif (tr.label() == 'T'):
         return '(\\x.(\\y.' + tr[0][0] + '(x,y)))'
     elif (rule == "S -> WHO QP QM"):
-        return '(\\x.' + sem(tr[1]) + '(x))'
+        return sem(tr[1])
     elif (rule == "S -> WHICH Nom QP QM"):
-        return '(\\x.(' + sem(tr[1]) + '(x) & ' + sem(tr[2]) + '(x)))'
+        return "(\\x.(" + sem(tr[1]) + "(x) & " + sem(tr[2]) + "(x)))"
     elif (rule == "QP -> VP"):
-        return '(\\x.' + sem(tr[0]) + '(x))'
+        return sem(tr[0])
     elif (rule == "QP -> DO NP T"):
-        return '(\\x.(exists y.(' + sem(tr[1]) + '(y) & ' + sem(tr[2]) + '(y, x))))'
+        return "(\\x. exists y.(" + sem(tr[1]) + "(y) & " + sem(tr[2]) + "(x)(y)))"
     elif (rule == "VP -> I"):
-        return '(\\x.' + sem(tr[0]) + '(x))'
+        return sem(tr[0])
     elif (rule == "VP -> T NP"):
-        return '(\\x.(exists y.(' + sem(tr[1]) + '(y) & ' + sem(tr[0]) + '(x, y))))'
+        return "(\\x. exists y.(" + sem(tr[0]) + "(y)(x) & " + sem(tr[1]) + "(y)))"
     elif (rule == "VP -> BE A"):
-        return '(\\x.' + sem(tr[1]) + '(x))'
+        return sem(tr[1])
     elif (rule == "VP -> BE NP"):
         return sem(tr[1])
     elif (rule == "VP -> VP AND VP"):
