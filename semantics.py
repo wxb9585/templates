@@ -32,11 +32,11 @@ def sem(tr):
     elif (rule == "QP -> VP"):
         return sem(tr[0])
     elif (rule == "QP -> DO NP T"):
-        return "(\\x. exists y.(" + sem(tr[1]) + "(y) & " + sem(tr[2]) + "(x)(y)))"
+        return "(\\x. exists y.(" + sem(tr[1]) + "(y) & " + sem(tr[2]) + "(x,y)))"
     elif (rule == "VP -> I"):
         return sem(tr[0])
     elif (rule == "VP -> T NP"):
-        return "(\\x. exists y.(" + sem(tr[0]) + "(y)(x) & " + sem(tr[1]) + "(y)))"
+        return "(\\x. exists y.(" + sem(tr[0]) + "(y,x) & " + sem(tr[1]) + "(y)))"
     elif (rule == "VP -> BE A"):
         return sem(tr[1])
     elif (rule == "VP -> BE NP"):
@@ -60,7 +60,7 @@ def sem(tr):
     elif (rule == "Rel -> WHO VP"):
         return sem(tr[1])
     elif (rule == "Rel -> NP T"):
-        return "(\\x. exists y.(" + sem(tr[0]) + "(y) & " + sem(tr[1]) + "(x)(y)))"
+        return "(\\x. exists y.(" + sem(tr[0]) + "(y) & " + sem(tr[1]) + "(x,y)))"
 # Logic parser for lambda expressions
 
 from nltk.sem.logic import LogicParser
