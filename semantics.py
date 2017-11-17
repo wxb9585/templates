@@ -184,14 +184,16 @@ def dialogue():
             output ("Please end with \".\" or \"?\" to avoid confusion.")
         s = fetch_input()
             
-"""if __name__ == "__main__":
+if __name__ == "__main__":
     lx = Lexicon()
-    lx.add('John', 'P')
+    lx.add('orange', 'A')
     lx.add('like', 'T')
-    tr0 = all_valid_parses(lx, ['Who', 'likes', 'John', '?'])[0]
-
+    lx.add('frog', 'N')
+    lx.add('duck', 'N')
+    tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck' , 'likes' , 'a', 'frog', '?'])[0]
+    tr0 = restore_words(tr0, ['Which', 'orange' , 'duck', 'likes', 'a', 'frog', '?'])
     # tr0.draw()
     a = lp.parse(sem(tr0))
-    a.simplify
-    print a"""
+    print a.simplify()
+
 # End of PART D.
