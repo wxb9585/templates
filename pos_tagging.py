@@ -49,6 +49,8 @@ def noun_stem (s):
     # add code here
     if s in unchanging_plurals_list:
         return s
+    elif re.match (".*men$",s):
+        snew = s[:-3] + "man"
     elif re.match(".*[aeiou]ys$",s):
         snew = s[:-1]
     elif re.match(".*([^sxyzaeiou]|[^cs]h)s$",s):
@@ -79,13 +81,17 @@ def tag_word (lx,wd):
     for tag in ["P", "A"]:
         if wd in lx.getAll(tag):
             tagOfWord.append(tag)
-    if wd in lx.getAll('N'):
-        tagOfWord.append("Np")
-    if noun_stem(wd) in lx.getAll('N'):
-        tagOfWord.append("Ns")
+    if (wd in lx.getAll('N')) or (noun_stem(wd) in lx.getAll('N')):
+        if wd in unchanging_plurals_list:
+            tagOfWord.append('Np')
+            tagOfWord.append('Ns')
+        elif noun_stem(wd) == "":
+            tagOfWord.append('Ns')
+        else:
+            tagOfWord.append('Np')
     for tag in ["I","T"]:
-        if (wd in lx.getAll(tag)) or (verb_stem(wd) in lx.getAll(tag)):
-            if verb_stem(wd) == wd:
+        if (wd in lx.getAll(tag)) or (verb_stem(wd) in lx.getAll(tag)) :
+            if verb_stem(wd) == "":
                 tagOfWord.append(tag + "p")
             else:
                 tagOfWord.append(tag + "s")

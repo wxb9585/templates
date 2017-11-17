@@ -25,46 +25,44 @@ def sem(tr):
         return '(\\x.' + tr[0][0] + '(x))'
     elif (tr.label() == 'T'):
         return '(\\x.(\\y.' + tr[0][0] + '(x,y)))'
-    elif rule == 'S -> WHO QP QM':
-        return sem(tr[1])
-    elif rule == 'S -> WHICH Nom QP QM':
-        return '(\\x.(' + sem(tr[1]) + '(x) & ' + sem(tr[2]) + '(x)))'
-    elif rule == 'QP -> VP':
-        return '(\\x.(' + sem(tr[0]) + '(x)))'
-    elif rule == 'QP -> DO NP T':
-        return '(\\x. (exists y.(' + sem(tr[1]) + ' & ' + sem(tr[2]) + '(y,x))))'
-    elif rule == 'VP -> I':
-        return '(\\x. ' + sem(tr[0]) + '(x))'
-    elif rule == 'VP -> T NP':
-        if top_level_rule(tr[1][0])[0] == 'P':
-            return '(\\x.(exists y.((' + sem(tr[0]) + '(x,y) & ' + sem(tr[1]) + '))))'
-        else:
-            return '(\\x.(exists y.((' + sem(tr[0]) + '(x,y) & ' + sem(tr[1]) + '(y)))))'
-    elif rule == 'VP -> BE A':
-        return '(\\x.' + sem(tr[1]) + '(x))'
-    elif rule == 'VP -> BE NP':
-        return '(\\x.' + sem(tr[1]) + '(x))'
-    elif rule == 'VP -> VP AND VP':
-        return '(\\x.(' + sem(tr[0]) + '(x) & ' + sem(tr[2]) + '(x)))'
-    elif rule == 'NP -> P':
-        return '\\x.(y=' + sem(tr[0]) + ')(x)'
-    elif rule == 'NP -> AR Nom':
-        return '(\\x.' + sem(tr[1]) + '(x))'
-    elif rule == 'NP -> Nom':
+    elif (rule == 'AN -> A AN'):
+        return '(\\x.(' + sem(tr[0]) + '(x) & ' + sem(tr[1]) + '(x)))'
+    elif (rule == 'NP -> P'):
+        return '(\\x.(x=' + sem(tr[0]) + '))'
+    elif (rule == 'AN -> N'):
         return '(\\x.' + sem(tr[0]) + '(x))'
-    elif rule == 'Nom -> AN':
-        return sem(tr[0])
-    elif rule == 'Nom -> AN Rel':
+    elif (rule == 'Rel -> WHO VP'):
+        return '(\\x.' + sem(tr[1]) + '(x))'
+    elif (rule == 'Rel -> NP T'):
+        return '(\\x. (exists y.(' + sem(tr[0]) + '(y) & ' + sem(tr[1]) + '(y)(x))))'
+    elif (rule == 'Nom -> AN'):
+        return '(\\x.' + sem(tr[0]) + '(x))'
+    elif (rule == 'Nom -> AN Rel'):
         return '(\\x.(' + sem(tr[0]) + '(x) & ' + sem(tr[1]) + '(x)))'
-    elif rule == 'AN -> A AN':
-        return '(\\x.(' + sem(tr[0]) + '(x) & ' + sem(tr[1]) + '(x)))'
-    elif rule == 'AN -> N':
-        return sem(tr[0])
-    elif rule == 'Rel -> WHO VP':
-        return '(\\x.(' + sem(tr[1]) + '(x)))'
-    elif rule == 'Rel -> NP T':
-        return '(\\x.(exists y.((' + sem(tr[0]) + '(y)) & ' + sem(tr[1]) + '(y,x))))'
-
+    elif (rule == 'NP -> AR Nom'):
+        return '(\\x.' + sem(tr[1]) + '(x))'
+    elif (rule == 'NP -> Nom'):
+        return '(\\x.' + sem(tr[0]) + '(x))'
+    elif (rule == 'NP -> P'):
+        return '(\\x.' + sem(tr[0]) + '(x))'
+    elif (rule == 'VP -> I'):
+        return '(\\x.' + sem(tr[0]) + '(x))'
+    elif (rule == 'VP -> T NP'):
+        return '(\\x.(exists y.(' + sem(tr[1]) + '(y) & ' + sem(tr[0]) + '(x,y))))'
+    elif (rule == 'VP -> BE A'):
+        return '(\\x.' + sem(tr[1]) + '(x))'
+    elif (rule == 'VP -> BE NP'):
+        return '(\\x.' + sem(tr[1]) + '(x))'
+    elif (rule == 'VP -> VP AND VP'):
+        return '(\\x.((' + sem(tr[0]) + '(x)) & (' + sem(tr[2]) + '(x))))'
+    elif (rule == 'QP -> VP'):
+        return '(\\x.' + sem(tr[0]) + '(x))'
+    elif (rule == 'QP -> DO NP T'):
+        return '(\\x. (exists y.(' + sem(tr[1]) + '(y) & ' + sem(tr[2]) + '(y)(x))))'  # THIS ONE WORKS!
+    elif (rule == 'S -> WHO QP QM'):
+        return '(\\x.' + sem(tr[1]) + '(x))'
+    elif (rule == 'S -> WHICH Nom QP QM'):
+        return '(\\x.((' + sem(tr[1]) + ')(x) & (' + sem(tr[2]) + '(x))))'
 
 # Logic parser for lambda expressions
 
@@ -186,15 +184,14 @@ def dialogue():
             output ("Please end with \".\" or \"?\" to avoid confusion.")
         s = fetch_input()
             
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     lx = Lexicon()
     lx.add('John', 'P')
     lx.add('like', 'T')
     tr0 = all_valid_parses(lx, ['Who', 'likes', 'John', '?'])[0]
 
     # tr0.draw()
-    tr0 = restore_words(tr0, ['Who', 'likes', 'John', '?'])
-    a = sem(tr0)
-
-    print a
+    a = lp.parse(sem(tr0))
+    a.simplify
+    print a"""
 # End of PART D.
