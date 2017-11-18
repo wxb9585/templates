@@ -13,7 +13,28 @@
 from agreement import *
 
 def sem(tr):
-    """translates a syntax tree into a logical lambda expression (in string form)"""
+    """translates a syntax tree into a logical lambda expression (in string form)
+
+   S     -> WHO QP QM | WHICH Nom QP QM
+   QP    -> VP | DO NP T
+   VP    -> I | T NP | BE A | BE NP | VP AND VP
+   NP    -> P | AR Nom | Nom
+   Nom   -> AN | AN Rel
+   AN    -> N | A AN
+   Rel   -> WHO VP | NP T
+
+   I    -> "Is" | "Ip"
+   T    -> "Ts" | "Tp"
+
+
+   BE    -> "BEs" | "BEp"
+   DO    -> "DOs" | "DOp"
+   AR    -> "AR"
+   WHO   -> "WHO"
+   WHICH -> "WHICH"
+   AND   -> "AND"
+   QM    -> "?"
+   """
     rule = top_level_rule(tr)
     if (tr.label() == 'P'):
         return tr[0][0]
@@ -24,7 +45,7 @@ def sem(tr):
     elif (tr.label() == 'I'):
         return '(\\x.' + tr[0][0] + '(x))'
     elif (tr.label() == 'T'):
-        return '(\\x.(\\y.' + tr[0][0] + '(x,y)))'
+        return '(\\y.(\\x.' + tr[0][0] + '(x,y)))'
     elif (rule == "S -> WHO QP QM"):
         return sem(tr[1])
     elif (rule == "S -> WHICH Nom QP QM"):
@@ -184,6 +205,7 @@ def dialogue():
 if __name__ == "__main__":
     lx = Lexicon()
     lx.add('orange', 'A')
+    lx.add('orange','N')
     lx.add('like', 'T')
     lx.add('frog', 'N')
     lx.add('duck', 'N')

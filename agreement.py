@@ -203,16 +203,16 @@ def restore_words(tr,wds):
 
 if __name__ == "__main__":
     #code for a simple testing, feel free to modify
-    wlist = ["John", "likes", "Mary"]
     lx = Lexicon()
-    lx.add ('John', 'P')
-    lx.add ('likes', 'T')
-    lx.add ('Mary', 'P')
-    lx.add ('Who', 'WHO')
-    lx.add ('?', '?')
-    trs = all_parses(['Who','likes','John','?'], lx)
-    for tr in trs:
-        print tr[0][0][0]
+    lx.add('orange', 'A')
+    lx.add('like', 'T')
+    lx.add('frog', 'N')
+    lx.add('duck', 'N')
+    tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])[0]
+    tr0 = restore_words(tr0, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])
+    tr0.draw()
+
+
 
 # End of PART C.
 
