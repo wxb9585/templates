@@ -13,27 +13,10 @@
 from agreement import *
 
 def sem(tr):
-    """translates a syntax tree into a logical lambda expression (in string form)
-
-   S     -> WHO QP QM | WHICH Nom QP QM
-   QP    -> VP | DO NP T
-
-
-   Nom   -> AN | AN Rel
-   AN    -> N | A AN
-   Rel   -> WHO VP | NP T
+    """translates a syntax tree into a logical lambda expression (in string form)"""
 
 
 
-
-   BE    -> "BEs" | "BEp"
-   DO    -> "DOs" | "DOp"
-   AR    -> "AR"
-   WHO   -> "WHO"
-   WHICH -> "WHICH"
-   AND   -> "AND"
-   QM    -> "?"
-   """
     rule = top_level_rule(tr)
     if (tr.label() == 'P'):
         return tr[0][0]
@@ -52,11 +35,11 @@ def sem(tr):
     elif rule == "QP -> VP":
         return sem(tr[0])
     elif rule == "QP -> DO NP T":
-        return "(\\x. exists y.(" + sem(tr[1]) + "(y) & " + sem(tr[2]) + "(x,y)))"
+        return "(\\x. (exists y.(" + sem(tr[1]) + "(y) & " + sem(tr[2]) + "(x,y))))"
     elif rule == "VP -> I":
         return sem(tr[0])
     elif rule == "VP -> T NP":
-        return "(\\x. exists y.(" + sem(tr[1]) + "(y) & " + sem(tr[0]) + "(y,x)))"
+        return "(\\x. (exists y.(" + sem(tr[1]) + "(y) & " + sem(tr[0]) + "(y,x))))"
     elif rule == "VP -> BE A":
         return sem(tr[1])
     elif rule == "VP -> BE NP":
@@ -64,7 +47,7 @@ def sem(tr):
     elif rule == "VP -> VP AND VP":
         return "(\\x.(" + sem(tr[0]) + "(x) & " + sem(tr[2]) + "(x)))"
     elif rule == "NP -> P":
-        return "(\\x. x=" + sem(tr[0]) + ")"
+        return "(\\x. (x=" + sem(tr[0]) + "))"
     elif rule == "NP -> AR Nom":
         return sem(tr[1])
     elif rule == "NP -> Nom":
@@ -80,7 +63,7 @@ def sem(tr):
     elif rule == "Rel -> WHO VP":
         return sem(tr[1])
     elif rule == "Rel -> NP T":
-        return "(\\x. exists y.(" + sem(tr[0]) + "(y) & " + sem(tr[1]) + "(x,y)))"
+        return "(\\x. (exists y.(" + sem(tr[0]) + "(y) & " + sem(tr[1]) + "(x,y))))"
 # Logic parser for lambda expressions
 
 from nltk.sem.logic import LogicParser
@@ -209,12 +192,14 @@ if __name__ == "__main__":
     lx.add('frog', 'N')
     lx.add('duck', 'N')
     lx.add('John', 'P')
-    #tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck' , 'likes' , 'a', 'frog', '?'])[0]
-    #tr0 = restore_words(tr0, ['Which', 'orange' , 'duck', 'likes', 'a', 'frog', '?'])
-    print all_parses(['Who', 'does', 'John', 'like', '?'],lx)
-    #tr1 = restore_words(tr1, ['Who', 'does', 'John', 'like','?'])
-    #tr1.draw()
-    #a = lp.parse(sem(tr1))
-    #print a.simplify()
+    tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck' , 'likes' , 'a', 'frog', '?'])[0]
+    tr0 = restore_words(tr0, ['Which', 'orange' , 'duck', 'likes', 'a', 'frog', '?'])
+    tr1 = all_valid_parses(lx,['Who', 'does', 'John', 'like', '?'])[0]
+
+    tr1 = restore_words(tr1, ['Who', 'does', 'John', 'like','?'])
+    b = lp.parse(sem(tr0))
+    a = lp.parse(sem(tr1))
+    print a.simplify()
+    print b.simplify()
 
 # End of PART D.
