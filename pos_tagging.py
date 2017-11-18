@@ -109,4 +109,8 @@ def tag_words (lx, wds):
 # End of PART B.
 
 if __name__ == "__main__":
-    print unchanging_plurals_list
+    lx = Lexicon()
+    lx.add('John', 'P')
+    lx.add('like', 'T')
+    wds = ['Who', 'does', 'John', 'like', '?']
+    print tag_words(lx, wds)

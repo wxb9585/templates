@@ -17,7 +17,7 @@ def sem(tr):
 
    S     -> WHO QP QM | WHICH Nom QP QM
    QP    -> VP | DO NP T
-   VP    -> I | T NP | BE A | BE NP | VP AND VP
+
 
    Nom   -> AN | AN Rel
    AN    -> N | A AN
@@ -208,10 +208,13 @@ if __name__ == "__main__":
     lx.add('like', 'T')
     lx.add('frog', 'N')
     lx.add('duck', 'N')
-    tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck' , 'likes' , 'a', 'frog', '?'])[0]
-    tr0 = restore_words(tr0, ['Which', 'orange' , 'duck', 'likes', 'a', 'frog', '?'])
-    #tr0.draw()
-    a = lp.parse(sem(tr0))
-    print a.simplify()
+    lx.add('John', 'P')
+    #tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck' , 'likes' , 'a', 'frog', '?'])[0]
+    #tr0 = restore_words(tr0, ['Which', 'orange' , 'duck', 'likes', 'a', 'frog', '?'])
+    print all_parses(['Who', 'does', 'John', 'like', '?'],lx)
+    #tr1 = restore_words(tr1, ['Who', 'does', 'John', 'like','?'])
+    #tr1.draw()
+    #a = lp.parse(sem(tr1))
+    #print a.simplify()
 
 # End of PART D.

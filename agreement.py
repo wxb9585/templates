@@ -101,7 +101,7 @@ def N_phrase_num(tr):
     elif tr.label() == 'NP':
         if tr.label() == 'P':
             return 's'
-        if len(tr) == 1:
+        elif len(tr) == 1:
             return 'p'
         else:
             return N_phrase_num(tr[1])
@@ -139,6 +139,7 @@ def check_node(tr):
     rule = top_level_rule(tr)
     if (rule == 'S -> WHICH Nom QP QM'):
         return (matches (N_phrase_num(tr[1]), V_phrase_num(tr[2])))
+
     elif (rule == 'NP -> AR Nom'):
         return (N_phrase_num(tr[1]) == 's')
     elif (rule == 'NP -> Nom'):
@@ -205,12 +206,16 @@ if __name__ == "__main__":
     #code for a simple testing, feel free to modify
     lx = Lexicon()
     lx.add('orange', 'A')
+    lx.add('orange', 'N')
     lx.add('like', 'T')
     lx.add('frog', 'N')
     lx.add('duck', 'N')
-    tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])[0]
-    tr0 = restore_words(tr0, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])
-    tr0.draw()
+    lx.add('John', 'P')
+    print all_parses(['Who', 'does', 'John', 'like', '?'],lx)
+    print all_valid_parses(lx, ['Who', 'does', 'John', 'like', '?'])
+    #tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])[0]
+    #tr0 = restore_words(tr0, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])
+    #tr0.draw()
 
 
 
