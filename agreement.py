@@ -102,9 +102,9 @@ def N_phrase_num(tr):
         if tr[0].label() == "P":
             return "s"
         elif tr[0].label() == "AR":
-            return "s"
+            return N_phrase_num(tr[1])
         elif tr[0].label() == "Nom":
-            return "p"
+            return 'p'
 
 
     else:
