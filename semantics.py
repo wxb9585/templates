@@ -18,13 +18,12 @@ def sem(tr):
    S     -> WHO QP QM | WHICH Nom QP QM
    QP    -> VP | DO NP T
    VP    -> I | T NP | BE A | BE NP | VP AND VP
-   NP    -> P | AR Nom | Nom
+
    Nom   -> AN | AN Rel
    AN    -> N | A AN
    Rel   -> WHO VP | NP T
 
-   I    -> "Is" | "Ip"
-   T    -> "Ts" | "Tp"
+
 
 
    BE    -> "BEs" | "BEp"
@@ -44,43 +43,43 @@ def sem(tr):
         return '(\\x.' + tr[0][0] + '(x))'
     elif (tr.label() == 'I'):
         return '(\\x.' + tr[0][0] + '(x))'
-    elif (tr.label() == 'T'):
+    elif tr.label() == 'T':
         return '(\\y.(\\x.' + tr[0][0] + '(x,y)))'
-    elif (rule == "S -> WHO QP QM"):
+    elif rule == "S -> WHO QP QM":
         return sem(tr[1])
-    elif (rule == "S -> WHICH Nom QP QM"):
+    elif rule == "S -> WHICH Nom QP QM":
         return "(\\x.(" + sem(tr[1]) + "(x) & " + sem(tr[2]) + "(x)))"
-    elif (rule == "QP -> VP"):
+    elif rule == "QP -> VP":
         return sem(tr[0])
-    elif (rule == "QP -> DO NP T"):
+    elif rule == "QP -> DO NP T":
         return "(\\x. exists y.(" + sem(tr[1]) + "(y) & " + sem(tr[2]) + "(x,y)))"
-    elif (rule == "VP -> I"):
+    elif rule == "VP -> I":
         return sem(tr[0])
-    elif (rule == "VP -> T NP"):
-        return "(\\x. exists y.(" + sem(tr[0]) + "(y,x) & " + sem(tr[1]) + "(y)))"
-    elif (rule == "VP -> BE A"):
+    elif rule == "VP -> T NP":
+        return "(\\x. exists y.(" + sem(tr[1]) + "(y) & " + sem(tr[0]) + "(y,x)))"
+    elif rule == "VP -> BE A":
         return sem(tr[1])
-    elif (rule == "VP -> BE NP"):
+    elif rule == "VP -> BE NP":
         return sem(tr[1])
-    elif (rule == "VP -> VP AND VP"):
+    elif rule == "VP -> VP AND VP":
         return "(\\x.(" + sem(tr[0]) + "(x) & " + sem(tr[2]) + "(x)))"
-    elif (rule == "NP -> P"):
+    elif rule == "NP -> P":
         return "(\\x. x=" + sem(tr[0]) + ")"
-    elif (rule == "NP -> AR Nom"):
+    elif rule == "NP -> AR Nom":
         return sem(tr[1])
-    elif (rule == "NP -> Nom"):
+    elif rule == "NP -> Nom":
         return sem(tr[0])
-    elif (rule == "Nom -> AN"):
+    elif rule == "Nom -> AN":
         return sem(tr[0])
-    elif (rule == "Nom -> AN Rel"):
+    elif rule == "Nom -> AN Rel":
         return "(\\x.(" + sem(tr[0]) + "(x) & " + sem(tr[1]) + "(x)))"
-    elif (rule == "AN -> N"):
+    elif rule == "AN -> N":
         return sem(tr[0])
-    elif (rule == "AN -> A AN"):
+    elif rule == "AN -> A AN":
         return "(\\x.(" + sem(tr[0]) + "(x) & " + sem(tr[1]) + "(x)))"
-    elif (rule == "Rel -> WHO VP"):
+    elif rule == "Rel -> WHO VP":
         return sem(tr[1])
-    elif (rule == "Rel -> NP T"):
+    elif rule == "Rel -> NP T":
         return "(\\x. exists y.(" + sem(tr[0]) + "(y) & " + sem(tr[1]) + "(x,y)))"
 # Logic parser for lambda expressions
 
@@ -211,7 +210,7 @@ if __name__ == "__main__":
     lx.add('duck', 'N')
     tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck' , 'likes' , 'a', 'frog', '?'])[0]
     tr0 = restore_words(tr0, ['Which', 'orange' , 'duck', 'likes', 'a', 'frog', '?'])
-    # tr0.draw()
+    #tr0.draw()
     a = lp.parse(sem(tr0))
     print a.simplify()
 
