@@ -1,6 +1,6 @@
 For the statements.py, there are several problem which could be improved. Firstly, there is a big problem on searching
 the corpus. We have to go through all the word in corpus to check the verb, this will significantly slow down the process. and also
-the brown corpus is not good enough. Some of the word could not be found in the corpus, such as washes, boxes and so on,(actually all
+the brown corpus is not good enough. Some of the word could not be found in the corpus, such as washes, boxes and so on (actually all
 the test words we used are from paper, and there are still a lot of words which can not be found). Secondly, The fact base only allow
 binary and Unary fact base, we could have more kind of relationship in actually query system, and  i have tried something like this:
   $$ John and Mary are ducks.
@@ -11,4 +11,15 @@ binary and Unary fact base, we could have more kind of relationship in actually 
      OK.
   $$ who are ducks?
      Eh??
-It seems like there is no way to add both John and Mary together at the same time for the Unary relation "duck",
+It seems like there is no way to add both John and Mary together at the same time for the Unary relation "duck", this is a point which
+we could improve.
+
+For pos_tagging.py, firstly we could improve unchanging plurals by increase the corpus, secondly, there is a problem about part of speech tagging
+where if we write :
+  $$ Tom is apple.
+     OK.
+  $$ John is apple.
+     OK.
+  $$ who is apple?
+     John  Tom
+we could see the tagging is wrong for apple as machine learn it as A

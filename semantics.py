@@ -185,20 +185,20 @@ def dialogue():
         s = fetch_input()
             
 if __name__ == "__main__":
-    #dialogue()
+    dialogue()
 
-    lx = Lexicon()
-    lx.add('orange', 'A')
-    lx.add('orange','N')
-    lx.add('like', 'T')
-    lx.add('frog', 'N')
-    lx.add('duck', 'N')
-    lx.add('John', 'P')
+    #lx = Lexicon()
+    #lx.add('orange', 'A')
+    #lx.add('orange','N')
+    #lx.add('like', 'T')
+    #lx.add('frog', 'N')
+    #lx.add('duck', 'N')
+    #lx.add('John', 'P')
     #tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck' , 'likes' , 'a', 'frog', '?'])[0]
     #tr0 = restore_words(tr0, ['Which', 'orange' , 'duck', 'likes', 'a', 'frog', '?'])
-    tr1 = all_valid_parses(lx,['Who', 'are', 'ducks', '?'])[0]
-    tr1 = restore_words(tr1, ['Who', 'are', 'ducks','?'])
-    tr1.draw()
+    #tr1 = all_valid_parses(lx,['Who', 'are', 'ducks', '?'])[0]
+    #tr1 = restore_words(tr1, ['Who', 'are', 'ducks','?'])
+    #tr1.draw()
     #b = lp.parse(sem(tr0))
     #a = lp.parse(sem(tr1))
     #print a.simplify()
