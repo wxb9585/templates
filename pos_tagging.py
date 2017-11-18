@@ -112,5 +112,6 @@ if __name__ == "__main__":
     lx = Lexicon()
     lx.add('John', 'P')
     lx.add('like', 'T')
-    wds = ['Who', 'does', 'John', 'like', '?']
+    lx.add('duck','N')
+    wds = ['Who', 'are', 'ducks', '?']
     print tag_words(lx, wds)
