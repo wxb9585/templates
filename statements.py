@@ -14,11 +14,13 @@ def add(lst,item):
     if (item not in lst):
         lst.insert(len(lst),item)
 
+
 class Lexicon:
     """stores known word stems of various part-of-speech categories"""
     # add code here
     def __init__(self):
         self.cat = {'P':[],'N':[],'A':[],'T':[],'I':[]}
+
     def add(self,stem,cat):
         if not cat in self.cat.keys():
             return "It is not the tag we need"
@@ -96,6 +98,7 @@ def verb_stem(s):
 
     return snew
 
+
 def add_proper_name (w,lx):
     """adds a name to a lexicon, checking if first letter is uppercase"""
     if ('A' <= w[0] and w[0] <= 'Z'):
@@ -103,6 +106,7 @@ def add_proper_name (w,lx):
         return ''
     else:
         return (w + " isn't a proper name")
+
 
 def process_statement (lx,wlist,fb):
     """analyses a statement and updates lexicon and fact base accordingly;

@@ -1,0 +1,14 @@
+For the statements.py, there are several problem which could be improved. Firstly, there is a big problem on searching
+the corpus. We have to go through all the word in corpus to check the verb, this will significantly slow down the process. and also
+the brown corpus is not good enough. Some of the word could not be found in the corpus, such as washes, boxes and so on,(actually all
+the test words we used are from paper, and there are still a lot of words which can not be found). Secondly, The fact base only allow
+binary and Unary fact base, and  i have tried something like:
+  $$ John and Mary are ducks.
+     OK
+  $$ Who is a duck?
+     Eh??
+  $$ Tom and Jim are ducks.
+     OK.
+  $$ who are ducks?
+     Eh??
+It seems like there is no way to add both John and Mary together at the same time for the Unary relation duck
