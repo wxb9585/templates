@@ -100,11 +100,11 @@ def N_phrase_num(tr):
             return N_phrase_num(tr[0])
     elif tr.label() == 'NP':
         if tr[0].label() == "P":
-            return "s"
+            return 's'
         elif tr[0].label() == "AR":
             return N_phrase_num(tr[1])
         elif tr[0].label() == "Nom":
-            return 'p'
+            return N_phrase_num(tr[0])
 
 
     else:
@@ -212,13 +212,13 @@ if __name__ == "__main__":
     lx.add('frog', 'N')
     lx.add('duck', 'N')
     lx.add('John', 'P')
-    print all_valid_parses(lx, ['Who', 'does', 'John', 'like', '?'])
-    a = all_parses(['Who', 'does', 'John', 'like', '?'],lx)
-    a[0].draw()
+    #print all_valid_parses(lx, ['Who', 'does', 'John', 'like', '?'])
+    #a = all_parses(['Who', 'does', 'John', 'like', '?'],lx)
+    #a[0].draw()
 
-    #tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])[0]
-    #tr0 = restore_words(tr0, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])
-    #tr0.draw()
+    tr0 = all_valid_parses(lx, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])[0]
+    tr0 = restore_words(tr0, ['Which', 'orange', 'duck', 'likes', 'a', 'frog', '?'])
+    tr0.draw()
 
 
 
